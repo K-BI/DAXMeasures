@@ -1,0 +1,18 @@
+Unique Days = 
+
+Var mindate = min(tbl[StartDate])
+Var maxdate = min(tbl[EndDate])
+var daterange = calendar(mindate,maxdate)
+
+
+var incidentdateranges = selectcolumns(tblData, "Startdt", tbleData[StartDate].[Date], "Enddt", tblData[EndDate].[Date])
+var distinctIncidentDateRanges = Distinct(incidentDateRanges)
+
+
+var crossjointable = CROSSJOIN(daterange, distinctIncidentDateRanges)
+
+var expandedrows = FILTER(crossjointable, AND([Date] >= [StartDt], [Date] < [Enddt]))
+
+RETURN
+
+COUNTROWS ( DISTINCT( SELECTCOLUMNS(expandedrows, "Dt", [Date]))
